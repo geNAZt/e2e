@@ -29,7 +29,7 @@ func Type(L *lua.LState) int {
 		}
 	} else {
 		logger.Debug("Typing '%s'", toType)
-		robotgo.TypeStr(toType)
+		robotgo.TypeString(toType)
 	}
 
 	logger.Benchmark(start)
