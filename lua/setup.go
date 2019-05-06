@@ -8,6 +8,7 @@ import (
 	"gomint.io/e2e/lua/process"
 	"gomint.io/e2e/lua/screen"
 	"gomint.io/e2e/lua/util"
+	"gomint.io/e2e/lua/http"
 	"gomint.io/e2e/test/cache"
 	"gomint.io/e2e/test/logger"
 )
@@ -57,6 +58,11 @@ func Execute(cache *cache.Cache, file string) bool {
 	functions["type"] = keyboard.Type
 	functions["press"] = keyboard.Press
 	L.RegisterModule("keyboard", functions)
+
+	// Register http helper
+	functions = make(map[string]lua.LGFunction)
+	functions["download"] = http.Download
+	L.RegisterModule("http", functions)
 
 	// Execute the script
 	if err := L.DoFile(file); err != nil {
