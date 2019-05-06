@@ -4,14 +4,12 @@ import (
 	lua "github.com/yuin/gopher-lua"
 	"gomint.io/e2e/test/logger"
 	"os/exec"
-	"strings"
 	"time"
 )
 
 func Run(L *lua.LState) int {
 	start := time.Now()
-	cmdline := L.ToString(1)
-	cmdParts := strings.Split(cmdline, " ")
+	cmdParts, cmdline := ResolveCmdParts(L, 1)
 
 	logger.Debug("Running command '%s'", cmdline)
 
@@ -20,6 +18,8 @@ func Run(L *lua.LState) int {
 		logger.Failure(err, "Could not run program '%s'", cmdline)
 	}
 
+	L.Push(lua.LNumber(cmd.Process.Pid))
+
 	logger.Benchmark(start)
-	return 0
+	return 1
 }
