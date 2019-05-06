@@ -11,12 +11,15 @@ import (
 	"gomint.io/e2e/lua/http"
 	"gomint.io/e2e/test/cache"
 	"gomint.io/e2e/test/logger"
+	"github.com/kohkimakimoto/gluafs"
 )
 
 func Execute(cache *cache.Cache, file string) bool {
 	// Create new lua VM
 	L := lua.NewState()
 	defer L.Close()
+
+	L.PreloadModule("fs", gluafs.Loader)
 
 	// Register log helper
 	functions := make(map[string]lua.LGFunction)
