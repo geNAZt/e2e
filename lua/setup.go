@@ -9,6 +9,7 @@ import (
 	"gomint.io/e2e/lua/screen"
 	"gomint.io/e2e/lua/util"
 	"gomint.io/e2e/lua/http"
+	"gomint.io/e2e/lua/window"
 	"gomint.io/e2e/test/cache"
 	"gomint.io/e2e/test/logger"
 	"github.com/kohkimakimoto/gluafs"
@@ -54,6 +55,7 @@ func Execute(cache *cache.Cache, file string) bool {
 	// Register util helper
 	functions = make(map[string]lua.LGFunction)
 	functions["sleep"] = util.Sleep
+	functions["sleep"] = util.Sleep
 	L.RegisterModule("util", functions)
 
 	// Register keyboard helper
@@ -67,6 +69,12 @@ func Execute(cache *cache.Cache, file string) bool {
 	functions = make(map[string]lua.LGFunction)
 	functions["download"] = http.Download
 	L.RegisterModule("http", functions)
+
+	// Register window helper
+	functions = make(map[string]lua.LGFunction)
+	functions["getWindows"] = window.GetWindows
+	functions["getBounds"] = window.GetBounds
+	L.RegisterModule("window", functions)
 
 	// Execute the script
 	if err := L.DoFile(file); err != nil {
