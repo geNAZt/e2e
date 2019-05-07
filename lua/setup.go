@@ -60,6 +60,7 @@ func Execute(cache *cache.Cache, file string) bool {
 	functions = make(map[string]lua.LGFunction)
 	functions["type"] = keyboard.Type
 	functions["press"] = keyboard.Press
+	functions["toggle"] = keyboard.Toggle
 	L.RegisterModule("keyboard", functions)
 
 	// Register http helper
